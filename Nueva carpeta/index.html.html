@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Descargar archivo</title>
+	<style type="text/css">
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0,0,0,0.1);
+			border-radius: 5px;
+		}
+		h1 {
+			text-align: center;
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		input[type="submit"] {
+			background-color: #008CBA;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+		input[type="submit"]:hover {
+			background-color: #005A7D;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Descargar archivo</h1>
+		<form method="POST">
+			<input type="submit" name="submit" value="Descargar">
+		</form>
+		<?php
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		    $nombreArchivo = "ola";
+		    $rutaArchivo = "./" . $nombreArchivo;
+		    if (file_exists($rutaArchivo)) {
+		        header("Content-Disposition: attachment; filename=\"" . basename($rutaArchivo) . "\"");
+		        header("Content-Type: application/octet-stream");
+		        header("Content-Length: " . filesize($rutaArchivo));
+		        readfile($rutaArchivo);
+		        exit;
+		    } else {
+		        echo "<p>Error al descargar el archivo. El archivo no existe.</p>";
+		    }
+		}
+		?>
+	</div>
+</body>
+</html>
